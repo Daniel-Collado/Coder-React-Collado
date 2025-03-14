@@ -1,0 +1,187 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+  .estiloContainer {
+    margin-top: 20px;
+  }
+
+  .estiloCards {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-evenly; 
+    padding: 20px;
+    margin-left: 25px !important; 
+    margin-right: 25px !important;
+    text-align: center;
+  }
+
+
+  body {
+    background: linear-gradient(to right, #ffffff, #f8e1e1, #f9d6d6);
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  
+  /* Estilos para las cards */
+  .card {
+    width: 100%; 
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s;
+  }
+  
+  .card:hover {
+  transform: scale(1.06);
+  }
+  
+  .no-hover:hover {
+    box-shadow: none !important; 
+    transform: none !important;  
+  }
+
+  .card-img-top {
+    height: 350px; 
+    object-fit: cover; 
+  }
+  
+  .card-body {
+   flex: 1; 
+  }
+  
+  .mi-navbar {
+    display: flex;
+    background: linear-gradient(to right, #ffffff, #f8e1e1, #f9d6d6);
+    margin: 0px;
+  }
+  
+  .mi-navbar .nav-link {
+    white-space: nowrap; 
+    font-size: 14px; 
+    padding: 8px 12px; 
+}
+
+.buttonNavbar {
+  margin: 0 5px;
+}
+
+.buttonNavbar.active {
+  background-color: #c42828; 
+  color: white;
+  border-color: #c42828;
+}
+
+@media (max-width: 768px) {  
+    .mi-navbar .nav-link {
+        font-size: 13px; 
+        padding: 6px 10px; 
+    }
+}
+
+  
+  .navbar-nav {
+    width: 50%;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .buttonNavbar {
+    background-color: #f4d7d7; 
+    color: #333; 
+    border-radius: 5px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    border: none;
+    outline: none !important;
+    box-shadow: none !important; 
+  }
+  
+  .buttonNavbar:hover {
+    background-color: #f9e2e2 !important; 
+    color: #333 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Botón de Item Detail */
+  .btn-outline-custom {
+    background-color: #a4cca8;  
+    color: #333; 
+    border-radius: 5px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+    border: none;
+    outline: none !important;
+    box-shadow: none !important; 
+  }
+  
+  .btn-outline-custom:hover,
+  .btn-outline-custom:focus,
+  .btn-outline-custom:active {
+    background-color: #e5d1d4 !important; 
+    color: #333 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+ 
+  .navbar-brand {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 18px; 
+    white-space: nowrap; 
+    margin-right: 10px; 
+  }
+
+  
+  .navbar-nav .nav-link {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+  }
+
+
+  .numeroBurbuja {
+    
+    background-color: #ff0000;
+    color: #ffffff;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+  
+  .logoNavbar {
+    width: 80px;
+    object-fit: cover;
+    border-radius: 40px;
+  }
+
+
+  @media (max-width: 992px) { 
+    .mi-navbar .navbar-brand {
+        font-size: 16px; 
+    }
+
+    .mi-navbar .nav-link {
+        font-size: 12px; 
+        padding: 5px 8px;
+    }
+}
+
+@media (min-width: 992px) {
+    .mi-navbar {
+        justify-content: space-between; 
+    }
+
+    .navbar-nav {
+        width: auto; 
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .navbar-nav .nav-link {
+        font-size: 14px;
+    }
+}
+
