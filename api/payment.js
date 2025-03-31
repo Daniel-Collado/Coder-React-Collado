@@ -1,6 +1,8 @@
 import mercadopago from "mercadopago";
 
-console.log("Versión de Mercado Pago:", require("mercadopago/package.json").version);
+import mercadopagoPkg from "mercadopago/package.json" assert { type: "json" };
+console.log("Versión de Mercado Pago:", mercadopagoPkg.version);
+
 console.log("Configurando Mercado Pago con token:", process.env.MP_ACCESS_TOKEN ? "Presente" : "No encontrado");
 mercadopago.configure({
     access_token: process.env.MP_ACCESS_TOKEN || "TOKEN_POR_DEFECTO",
