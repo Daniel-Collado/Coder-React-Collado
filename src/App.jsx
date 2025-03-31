@@ -5,6 +5,9 @@ import CartContainer from './components/CartContainer'
 import CheckoutForm from './components/CheckoutForm'
 import CartProvider from './context/CartProvider'
 import Login from './components/Login'
+import SuccessPage from './components/SuccessPage';
+import FailurePage from './components/FailurePage';
+import PendingPage from './components/PendingPage';
 import { Route, Routes } from "react-router-dom"
 import './App.css'
 
@@ -20,6 +23,9 @@ function App() {
             <Route path="/cart" element={<CartContainer />} />
             <Route path="/checkout" element={<CheckoutForm />} />
             <Route path="login" element={<Login />} />
+            <Route path="/success" element={<SuccessPage />} />
+            <Route path="/failure" element={<FailurePage />} />
+            <Route path="/pending" element={<PendingPage />} />
         </Routes>    
       </CartProvider>
   )
