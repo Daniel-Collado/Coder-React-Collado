@@ -74,6 +74,7 @@ function CheckoutForm() {
         },
         body: JSON.stringify(paymentOrder),
       });
+      console.log("Estado de la respuesta:", response.status, response.statusText);
   
       if (!response.ok) {
         throw new Error(`Error ${response.status}: ${response.statusText}`);

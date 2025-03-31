@@ -1,8 +1,16 @@
 import mercadopago from "mercadopago";
 
-console.log("Configurando Mercado Pago con token:", process.env.MP_ACCESS_TOKEN ? "Presente" : "No encontrado");
+const accessToken = process.env.MP_ACCESS_TOKEN || "TOKEN_POR_DEFECTO";
+console.log("MP_ACCESS_TOKEN en servidor:", process.env.MP_ACCESS_TOKEN);
+
+
+console.log(
+  "Configurando Mercado Pago con token:",
+  accessToken !== "TOKEN_POR_DEFECTO" ? "Presente" : "No encontrado"
+);
+
 mercadopago.configure({
-    access_token: process.env.MP_ACCESS_TOKEN || "TOKEN_POR_DEFECTO",
+  access_token: accessToken,
 });
 
 export default async function handler(req, res) {
@@ -11,17 +19,18 @@ export default async function handler(req, res) {
     const { items, user, orderId } = req.body;
 
     const preference = {
-      items: items.map((item) => {
-        console.log("Item procesado:", item);
-        return {
-          title: item.name,
-          unit_price: item.price,
-          quantity: item.quantity,
-          currency_id: "ARS",
-        };
-      }),
+      items: items.map((item) => ({
+        title: item.title,
+        unit_price: item.price,
+        quantity: item.quantity,
+        currency_id: "ARS",
+      })),
       payer: {
         email: user.email,
+        name: user.firstName, // Asegúrate de que 'firstName' se pase correctamente
+        surname: user.lastName,
+        address: user.address,
+        phone: user.phone,
       },
       back_urls: {
         success: "https://coder-react-collado.vercel.app/success",

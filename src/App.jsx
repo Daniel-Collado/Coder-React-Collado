@@ -5,9 +5,9 @@ import CartContainer from './components/CartContainer'
 import CheckoutForm from './components/CheckoutForm'
 import CartProvider from './context/CartProvider'
 import Login from './components/Login'
-import SuccessPage from './components/SuccessPage';
-import FailurePage from './components/FailurePage';
-import PendingPage from './components/PendingPage';
+import SuccessPage from './components/SuccessPage'
+import FailurePage from './components/FailurePage'
+import PendingPage from './components/PendingPage'
 import { Route, Routes } from "react-router-dom"
 import './App.css'
 

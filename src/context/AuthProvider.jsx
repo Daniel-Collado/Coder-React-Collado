@@ -34,11 +34,17 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user)
-      setLoading(false)
+      if (user) {
+        console.log("Usuario autenticado:", user.email);
+      } else {
+        console.log("No hay usuario autenticado");
+      }
+      setCurrentUser(user);
+      setLoading(false);
     })
-    return unsubscribe
-  }, [])
+    return unsubscribe;
+  }, []);
+  
 
   const value = {
     currentUser,
