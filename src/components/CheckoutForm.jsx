@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useAuth } from "../context/authContext";
 import { cartContext } from "../context/cartContext";
-import { createOrder } from "../firebase/db";
+import { createOrder } from "../firebase/db"; // Función para crear la orden en Firebase
 import { db } from "../firebase/db";
 import { doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -41,9 +41,8 @@ function CheckoutForm() {
     fetchUserData();
   }, [currentUser]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handlePayment = async () => {
+    // Paso 1: Crear la orden en Firebase
     const order = {
       items: cart,
       user: {
@@ -55,21 +54,53 @@ function CheckoutForm() {
       },
       time: serverTimestamp(),
       total: getTotalGeneral(),
+      status: "pendiente", // Inicialmente la orden está pendiente
     };
 
-    const id = await createOrder(order);
+    // Crear la orden en Firebase y obtener el ID de la orden
+    const orderId = await createOrder(order);
 
-    clearCart();
+    // Paso 2: Crear la preferencia de pago con MercadoPago
+    const paymentOrder = {
+      items: cart,
+      user: userData,
+      orderId, // El ID de la orden de Firebase
+    };
 
-    MySwal.fire({
-      title: "¡Muchas gracias por tu compra!",
-      text: `El ID de tu orden es: ${id}`,
-    }).then(() => navigate("/"));
+    try {
+      const response = await fetch("/api/payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(paymentOrder),
+      });
+
+      const data = await response.json();
+
+      // Redirige al usuario a la página de pago de MercadoPago
+      window.location.href = data.init_point;
+
+      // Paso 3: Limpiar el carrito y mostrar la confirmación
+      clearCart();
+
+      MySwal.fire({
+        title: "¡Muchas gracias por tu compra!",
+        text: `El ID de tu orden es: ${orderId}`,
+      }).then(() => navigate("/"));
+    } catch (error) {
+      console.error("Error al crear el pago:", error);
+      MySwal.fire({
+        title: "Error",
+        text: "Hubo un problema al procesar tu pago, por favor intenta nuevamente.",
+        icon: "error",
+      });
+    }
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <Form className="w-25 p-4 border rounded shadow-lg bg-light" onSubmit={handleSubmit}>
+      <Form className="w-25 p-4 border rounded shadow-lg bg-light">
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Dirección de correo</Form.Label>
           <Form.Control type="email" value={userData.email} disabled />
@@ -107,12 +138,12 @@ function CheckoutForm() {
           />
         </Form.Group>
 
-        <Button variant="light" type="submit" className="w-100">
-          Finalizar compra
+        <Button variant="light" type="button" className="w-100" onClick={handlePayment}>
+          Pagar con MercadoPago
         </Button>
       </Form>
     </div>
   );
 }
 
-export default CheckoutForm
+export default CheckoutForm;
