@@ -1,22 +1,26 @@
 import mercadopago from "mercadopago";
 
-// Configura el acceso con tu token de Mercado Pago
+console.log("Versión de Mercado Pago:", require("mercadopago/package.json").version);
+console.log("Configurando Mercado Pago con token:", process.env.MP_ACCESS_TOKEN ? "Presente" : "No encontrado");
 mercadopago.configure({
-  access_token: process.env.MP_ACCESS_TOKEN || "TU_TOKEN_POR_DEFECTO", // Asegúrate de que el token esté en .env
+    access_token: process.env.MP_ACCESS_TOKEN || "TOKEN_POR_DEFECTO",
 });
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    // Si es una solicitud de pago
+    console.log("Solicitud recibida:", req.body);
     const { items, user, orderId } = req.body;
 
     const preference = {
-      items: items.map((item) => ({
-        title: item.name,
-        unit_price: item.price,
-        quantity: item.quantity,
-        currency_id: "ARS", // Puedes cambiar la moneda
-      })),
+      items: items.map((item) => {
+        console.log("Item procesado:", item);
+        return {
+          title: item.name,
+          unit_price: item.price,
+          quantity: item.quantity,
+          currency_id: "ARS",
+        };
+      }),
       payer: {
         email: user.email,
       },
@@ -31,32 +35,13 @@ export default async function handler(req, res) {
     };
 
     try {
+      console.log("Creando preferencia con:", preference);
       const response = await mercadopago.preferences.create(preference);
+      console.log("Preferencia creada:", response.body);
       res.status(200).json({ id: response.body.id, init_point: response.body.init_point });
     } catch (error) {
       console.error("Error creando preferencia de pago:", error);
-      res.status(500).json({ error: "Error al procesar el pago" });
-    }
-  } else if (req.method === "GET") {
-    // Procesar Webhooks de Mercado Pago
-    const { topic, id } = req.query;
-
-    if (topic === "payment") {
-      try {
-        const payment = await mercadopago.payment.findById(id);
-
-        if (payment.body.status === "approved") {
-          console.log("Pago aprobado", payment.body);
-          // Aquí puedes actualizar Firebase con el estado del pedido
-        }
-
-        res.status(200).json({ message: "Notificación recibida correctamente" });
-      } catch (error) {
-        console.error("Error al procesar el Webhook:", error);
-        res.status(500).json({ message: "Error al procesar la notificación del pago" });
-      }
-    } else {
-      res.status(400).json({ message: "Tipo de notificación no soportado" });
+      res.status(500).json({ error: "Error al procesar el pago", details: error.message });
     }
   } else {
     res.status(405).json({ error: "Método no permitido" });
