@@ -1,7 +1,9 @@
 import mercadopago from "mercadopago";
 
-// Configura el acceso con tu token de MercadoPago
-mercadopago.configurations.setAccessToken(process.env.MP_ACCESS_TOKEN);
+// Configura el acceso con tu token de Mercado Pago
+mercadopago.configure({
+  access_token: process.env.MP_ACCESS_TOKEN || "TU_TOKEN_POR_DEFECTO", // Asegúrate de que el token esté en .env
+});
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -19,12 +21,12 @@ export default async function handler(req, res) {
         email: user.email,
       },
       back_urls: {
-        success: "https://coder-react-collado.vercel.app/success", // URL para el éxito
-        failure: "https://coder-react-collado.vercel.app/failure", // URL para fallo
-        pending: "https://coder-react-collado.vercel.app/pending", // URL para pendiente
+        success: "https://coder-react-collado.vercel.app/success",
+        failure: "https://coder-react-collado.vercel.app/failure",
+        pending: "https://coder-react-collado.vercel.app/pending",
       },
       auto_return: "approved",
-      notification_url: "https://coder-react-collado.vercel.app/api/payment", // URL para recibir notificaciones de Webhook
+      notification_url: "https://coder-react-collado.vercel.app/api/payment",
       external_reference: orderId,
     };
 
@@ -36,19 +38,16 @@ export default async function handler(req, res) {
       res.status(500).json({ error: "Error al procesar el pago" });
     }
   } else if (req.method === "GET") {
-    // Aquí agregas la lógica para procesar los Webhooks de MercadoPago
+    // Procesar Webhooks de Mercado Pago
     const { topic, id } = req.query;
 
-    // Verifica si el Webhook es de tipo 'payment'
     if (topic === "payment") {
       try {
-        // Obtén la información del pago usando el ID de la notificación
         const payment = await mercadopago.payment.findById(id);
 
-        // Aquí puedes manejar la respuesta, como actualizar el estado del pago en tu base de datos
         if (payment.body.status === "approved") {
           console.log("Pago aprobado", payment.body);
-          // Actualizar el estado del pedido en tu base de datos (por ejemplo, marcarlo como pagado)
+          // Aquí puedes actualizar Firebase con el estado del pedido
         }
 
         res.status(200).json({ message: "Notificación recibida correctamente" });
