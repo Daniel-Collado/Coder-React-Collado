@@ -41,7 +41,7 @@ function CheckoutForm() {
     fetchUserData();
   }, [currentUser]);
 
-  const handlePayment = async () => {
+  async function handlePayment() {
     // Paso 1: Crear la orden en Firebase
     const order = {
       items: cart,
@@ -54,19 +54,18 @@ function CheckoutForm() {
       },
       time: serverTimestamp(),
       total: getTotalGeneral(),
-      status: "pendiente", // Inicialmente la orden está pendiente
+      status: "pendiente",
     };
-
-    // Crear la orden en Firebase y obtener el ID de la orden
+  
     const orderId = await createOrder(order);
-
+  
     // Paso 2: Crear la preferencia de pago con MercadoPago
     const paymentOrder = {
       items: cart,
       user: userData,
-      orderId, // El ID de la orden de Firebase
+      orderId,
     };
-
+  
     try {
       const response = await fetch("/api/payment", {
         method: "POST",
@@ -75,15 +74,19 @@ function CheckoutForm() {
         },
         body: JSON.stringify(paymentOrder),
       });
-
+  
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+  
       const data = await response.json();
-
+      console.log("Respuesta de la API:", data);
+  
       // Redirige al usuario a la página de pago de MercadoPago
       window.location.href = data.init_point;
-
-      // Paso 3: Limpiar el carrito y mostrar la confirmación
+  
+      // Limpiar el carrito y mostrar confirmación
       clearCart();
-
       MySwal.fire({
         title: "¡Muchas gracias por tu compra!",
         text: `El ID de tu orden es: ${orderId}`,
@@ -96,8 +99,7 @@ function CheckoutForm() {
         icon: "error",
       });
     }
-  };
-
+  }
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <Form className="w-25 p-4 border rounded shadow-lg bg-light">
