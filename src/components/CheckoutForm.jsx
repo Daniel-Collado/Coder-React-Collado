@@ -148,6 +148,6 @@ function CheckoutForm() {
       </Form>
     </div>
   );
-}
+};
 
 export default CheckoutForm;
