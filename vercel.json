@@ -1,21 +1,15 @@
 {
-    "version": 2,
-    "functions": {
-      "api/payment.js": {
-        "runtime": "nodejs18"
-      }
+"version": 2,
+"rewrites": [
+    {
+    "source": "/api/(.*)",
+    "destination": "/api/$1"
     },
-    "rewrites": [
-      {
-        "source": "/api/(.*)",
-        "destination": "/api/$1"
-      },
-      {
-        "source": "/(.*)",
-        "destination": "/index.html"
-      }
-    ],
-    "cleanUrls": true,
-    "trailingSlash": false
-  }
-  
+    {
+    "source": "/(.*)",
+    "destination": "/index.html"
+    }
+],
+"cleanUrls": true,
+"trailingSlash": false
+}
