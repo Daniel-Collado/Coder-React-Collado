@@ -6,7 +6,10 @@ export default defineConfig({
   plugins: [react()],
   build: {
     chunkSizeWarningLimit: 1000, // Cambia el límite (en KB)
+    outDir: 'dist', // Carpeta de salida
+    assetsDir: 'assets', // Subcarpeta para JS, CSS, etc.
   },
+  base: '/', // Asegura que las rutas sean relativas a la raíz
 })
 
 
