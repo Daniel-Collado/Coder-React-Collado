@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       },
       back_urls: {
         success: "https://coder-react-collado.vercel.app/success",
-        failure: "https://coder-react-collado.vercel.app/failure",
+        failure: "https://coder-react-collado.vercel.app/",
         pending: "https://coder-react-collado.vercel.app/pending",
       },
       auto_return: "approved",

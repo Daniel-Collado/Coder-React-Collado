@@ -1,9 +1,14 @@
 {
-    "functions": {
-      "api/payment.js": {
-        "runtime": "nodejs18.x",
-        "regions": ["sa-east-1"]
-      }
+  "functions": {
+    "api/payment.js": {
+      "runtime": "nodejs18.x",
+      "regions": ["sa-east-1"]
     }
-  }
-  
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
