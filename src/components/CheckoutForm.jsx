@@ -56,7 +56,8 @@ function CheckoutForm() {
       total: getTotalGeneral(),
       status: "pendiente",
     };
-  
+    console.log("Email del usuario que paga:", userData.email);
+
     const orderId = await createOrder(order);
   
     // Paso 2: Crear la preferencia de pago con MercadoPago
