@@ -7,12 +7,12 @@ import { cartContext } from "../context/cartContext";
 import { createOrder } from "../firebase/db"; // Función para crear la orden en Firebase
 import { db } from "../firebase/db";
 import { doc, getDoc, serverTimestamp } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 function CheckoutForm() {
-  const { cart, getTotalGeneral, clearCart } = useContext(cartContext);
+  const { cart, getTotalGeneral } = useContext(cartContext);
   const { currentUser } = useAuth();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
 
   const [userData, setUserData] = useState({
@@ -86,13 +86,7 @@ function CheckoutForm() {
   
       // Redirige al usuario a la página de pago de MercadoPago
       window.location.href = data.init_point;
-  
-      // Limpiar el carrito y mostrar confirmación
-      clearCart();
-      MySwal.fire({
-        title: "¡Muchas gracias por tu compra!",
-        text: `El ID de tu orden es: ${orderId}`,
-      }).then(() => navigate("/"));
+
     } catch (error) {
       console.error("Error al crear el pago:", error);
       MySwal.fire({
