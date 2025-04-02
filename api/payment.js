@@ -56,12 +56,12 @@ export default async function handler(req, res) {
         phone: user.phone,
       },
       back_urls: {
-        success: "https://coder-react-collado.vercel.app/success",
-        failure: "https://coder-react-collado.vercel.app/failure",
-        pending: "https://coder-react-collado.vercel.app/pending",
+        success: "https://tienda-jardin-olmos.vercel.app/success",
+        failure: "https://tienda-jardin-olmos.vercel.app/failure",
+        pending: "https://tienda-jardin-olmos.vercel.app/pending",
       },
       auto_return: "approved",
-      notification_url: "https://coder-react-collado.vercel.app/api/payment",
+      notification_url: "https://tienda-jardin-olmos.vercel.app/api/payment",
       external_reference: orderId,
     };
 
