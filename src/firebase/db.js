@@ -35,11 +35,15 @@ export const getProduct = async (id) => {
 
 export const createOrder = async (order) => {
   try {
-    const docRef = await addDoc(collection(db, "orders"), order)
-    console.log("Orden creada con ID:", docRef.id)
-    return docRef.id
+    const docRef = await addDoc(collection(db, "orders"), {
+      ...order,
+      userId: auth.currentUser.uid, // Añade el UID del usuario autenticado
+    });
+    console.log("Orden creada con ID:", docRef.id);
+    return docRef.id;
   } catch (e) {
-    console.error("Error adding document: ", e)
+    console.error("Error adding document: ", e);
+    throw e; // Lanza el error para manejarlo en CheckoutForm
   }
 }
 
