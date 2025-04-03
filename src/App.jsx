@@ -11,6 +11,7 @@ import PendingPage from './components/PendingPage'
 import { Route, Routes } from "react-router-dom"
 import './App.css'
 
+// Test deploy para confirmar vercel.json
 function App() {
  
   return (
