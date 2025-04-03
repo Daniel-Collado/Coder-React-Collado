@@ -1,6 +1,7 @@
 
 import { getFirestore, collection, query, where, getDocs, doc, getDoc, addDoc, onSnapshot } from "firebase/firestore"
 import { app } from "./config"
+import { auth } from "./config"
 
 export const db = getFirestore(app)
 
